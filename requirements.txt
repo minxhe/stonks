@@ -1,2 +1,2 @@
-pandas
-wallstreet
+pandas==1.3.5
+wallstreet==0.3.1

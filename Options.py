@@ -2,6 +2,9 @@ import pandas as pd
 import sys
 from wallstreet import Call, Put
 
+def format(number):
+    return f'{number:10.4f}'
+
 args = sys.argv
 
 method = args[1]
@@ -18,9 +21,9 @@ price = min_strike
 
 while price <= max_strike:
     option = Call(symbol, d=day, m=month, y=year, strike=price) if method == 'call' else Put(symbol, d=day, m=month, y=year, strike=price)
-    options.append([price, option.price, option.implied_volatility(), option.volume, option.underlying.price, option.delta(), option.gamma(), option.theta(), option.expiration])
+    options.append([option.strike, option.price, option.underlying.price, format(option.implied_volatility()), format(option.delta()), format(option.gamma()), format(option.theta()), option.expiration])
 
     price += step
 
-df = pd.DataFrame(options, columns = ['Strike', 'Price', 'Implied Vol', 'Volume', 'Underlying', 'Delta', 'Gamma', 'Theta', 'Expiration'])
+df = pd.DataFrame(options, columns = ['Strike', 'Price', 'Underlying', 'Implied Vol', 'Delta', 'Gamma', 'Theta', 'Expiration'])
 print(df)
